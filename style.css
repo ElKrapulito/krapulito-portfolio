@@ -1,0 +1,92 @@
+:root {
+    --text: white;
+    --background: black;
+}
+
+@font-face {
+    font-family: "monaspace-krypton";
+    src: url("./fonts/monaspace/Monaspace Krypton Var.woff2");
+}
+
+html {
+    font-family: "monaspace-krypton", "Bitstream Vera Serif", serif;
+    height: 100vh;
+    font-size: 1rem;
+}
+
+body {
+    color: var(--text);
+    background-color: var(--background);
+}
+
+header {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    img {
+        color: var(--text);
+        width: 10em;
+    }
+}
+
+nav>ul {
+    list-style: none;
+    padding: 0;
+    width: 80%;
+    margin: 0 auto;
+}
+
+img {
+    color: var(--text);
+}
+
+
+@media screen and (min-width: 1024px) {
+    nav {
+        ul {
+            width: 80%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    }
+}
+
+
+main {
+    width: 80%;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+footer {
+    width: 80%;
+    margin: 5em auto;
+}
+
+.job-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon-color {
+    filter: invert();
+}
+
+.my-links {
+    li:hover {
+        cursor: pointer;
+    }
+
+    li>a {
+        display: block;
+    }
+
+    li {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
