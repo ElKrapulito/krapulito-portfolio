@@ -13,37 +13,36 @@
     <canvas id="life"></canvas>
     <div class="background">
         <div class="container">
-            <header>
-                <img class="profile-img" src="./assets/profile-pic.jpg" alt="samuel profile picture">
-                <h1 class="highlight">Samuel Cordova</h1>
-            </header>
-            <nav class="my-links">
-                <ul>
-                    <li>
-                        <img class="social-icon" src="./assets/linkedin.svg" alt="LinkedIn Icon">
-                    </li>
-                    <li>
-                        <img class="social-icon" src="./assets/envelope-at-fill.svg" alt="Mail Icon">
-                    </li>
-                    <li>
-                        <img class="social-icon" src="./assets/github.svg" alt="Github Icon">
-                    </li>
+            <header class="header-flex">
+                <img class="profile-img profile-pic" src="./assets/profile-pic.jpg" alt="samuel profile picture">
+                <div>
+                    <h1 class="highlight my-name">Samuel Cordova</h1>
+                    <div class="my-links">
+                        <ul>
+                            <li>
+                                <img class="social-icon" src="./assets/linkedin.svg" alt="LinkedIn Icon">
+                            </li>
+                            <li>
+                                <img class="social-icon" src="./assets/envelope-at-fill.svg" alt="Mail Icon">
+                            </li>
+                            <li>
+                                <img class="social-icon" src="./assets/github.svg" alt="Github Icon">
+                            </li>
 
-                    <li>
-                        <div class="btn-download">
-                            <img src="./assets/cloud-arrow-down-fill.svg" alt="Cloud download Icon">
-                            Download <strong>CV</strong>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <nav>
-                <ul>
-                    <li><button onclick="displayComponent('summary')">About Me</button></li>
-                    <li><button onclick="displayComponent('experience')">Experience</button></li>
-                    <li><button>Proyects</button></li>
-                    <li><button>Extra</button></li>
-                </ul>
+                            <li>
+                                <div class="btn">
+                                    <img src="./assets/cloud-arrow-down-fill.svg" alt="Cloud download Icon">
+                                    Download <strong>CV</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <nav class="tabs">
+                <button class="btn" onclick="displayComponent('summary')">About Me</button>
+                <button class="btn" onclick="displayComponent('experience')">Experience</button>
+                <button class="btn" onclick="displayComponent('proyects')">Proyects</button>
             </nav>
             <main>
                 <div id="summary">

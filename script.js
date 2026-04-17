@@ -28,14 +28,17 @@ function clearMain() {
 
 function displayComponent(component) {
     const mainElement = componentState.main;
+    clearMain();
     switch (component) {
         case 'summary':
-            clearMain();
             mainElement.appendChild(componentState.summary);
             break;
         case 'experience':
-            clearMain();
             mainElement.appendChild(componentState.experience);
+            break;
+        case 'proyects':
+            break;
+        case 'extra':
             break;
     }
 
