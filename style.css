@@ -1,7 +1,10 @@
 :root {
-    --text: white;
-    --background: black;
+    --text: #E4ECEB;
+    --background: #121A19;
     --accent: #7ebab5;
+    --highlight: #A3D0C9;
+    --secondAccent: #D9B48B;
+
 }
 
 @font-face {
@@ -62,9 +65,8 @@ footer {
 .my-name {
     text-align: end;
     margin: 0;
+    color: var(--secondAccent);
 }
-
-
 
 .job-detail {
     display: flex;
@@ -102,6 +104,7 @@ footer {
     height: 100%;
     display: block;
     z-index: -1;
+    background-color: var(--background);
 }
 
 .background {
@@ -109,7 +112,7 @@ footer {
     overflow-y: scroll;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(3px);
 }
 
@@ -124,12 +127,15 @@ footer {
     outline: inherit;
 
     background-color: var(--accent);
-    color: black;
+    color: var(--background);
     text-align: center;
     padding: 0.3em 0.5em;
     border-radius: 5px;
     font-weight: bold;
+}
 
+.btn:hover {
+    background-color: var(--highlight);
 }
 
 .highlight {
@@ -162,5 +168,11 @@ footer {
         align-items: center;
 
 
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .background {
+        backdrop-filter: blur(1px);
     }
 }
