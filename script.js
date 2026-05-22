@@ -1,6 +1,7 @@
 let componentState;
 
 const abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
+const freq = 2;
 
 function componentStateInit() {
     const summaryComponent = document.querySelector('#summary');
@@ -29,33 +30,38 @@ function clearMain() {
 
 
 function randomizeContent(elementclass) {
-    const myelement = document.querySelector(elementclass);
-    if (!myelement) {
+    const myelements = document.querySelectorAll(elementclass);
+    if (!myelements) {
         return;
     }
-    const copyText = myelement.innerText;
-    let letterToAppear = 0;
-    let contentLength = copyText.length;
-    const freq = 2;
-    let count = freq;
+
+    let objelements = [];
+    myelements.forEach((el, i) => {
+        const item = { element: el, ogtxt: el.innerText, letterToAppear: 0, cnt: freq, in: i }
+        objelements.push(item);
+    });
     const myinterval = setInterval(() => {
-        if (count <= 0) {
-            letterToAppear++;
-            count = freq;
-        }
-        const newContent = [];
-        for (let i = contentLength - letterToAppear; i > 0; i--) {
-            const posabc = Math.floor(Math.random() * abc.length);
-            newContent.push(abc[posabc]);
-        }
-        myelement.innerText = copyText.slice(0, letterToAppear) + newContent.join('')
-        count--;
-        if (letterToAppear == copyText.length) {
+        objelements = objelements.filter(el => el.ogtxt.length != el.letterToAppear);
+        objelements.forEach(el => evaluateElement(el))
+        if (objelements.length <= 0) {
             clearInterval(myinterval);
         }
-    }, 50);
+    }, 75);
 }
 
+function evaluateElement(el) {
+    if (el.cnt <= 0) {
+        el.letterToAppear++;
+        el.cnt = freq;
+    }
+    const newContent = [];
+    for (let i = el.ogtxt.length - el.letterToAppear; i > 0; i--) {
+        const posabc = Math.floor(Math.random() * abc.length);
+        newContent.push(abc[posabc]);
+    }
+    el.element.innerText = el.ogtxt.slice(0, el.letterToAppear) + newContent.join('')
+    el.cnt--;
+}
 
 function displayComponent(component) {
     const mainElement = componentState.main;
