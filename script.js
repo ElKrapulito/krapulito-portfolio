@@ -22,7 +22,6 @@ function main() {
 
 function clearMain() {
     const mainElement = componentState.main;
-    // console.log('main children length: ', mainElement.children.length);
     for (let i = mainElement.children.length - 1; i >= 0; i--) {
         mainElement.children[i].remove();
     }
@@ -72,13 +71,45 @@ function displayComponent(component) {
             break;
         case 'experience':
             mainElement.appendChild(componentState.experience);
+            onLoadExperience();
             break;
         case 'proyects':
             break;
         case 'extra':
             break;
     }
+}
 
+function onLoadExperience() {
+    const xhr = new XMLHttpRequest();
+    const xhscript = new XMLHttpRequest();
+
+    xhr.open("GET", "./components/experience-item.html");
+    xhr.onload = () => {
+        componentState.experience.innerHTML = xhr.responseText;
+        //const jobDetail = document.querySelector("#job-description");
+        //jobDetail.innerHTML = xhr.responseText;
+    }
+    xhr.send();
+
+    // ** Works **
+    xhscript.open("GET", "./components/experience.js");
+    xhscript.onreadystatechange = () => {
+        if (xhscript.readyState == xhscript.DONE) {
+            const htmlscript = document.createElement("script");
+            htmlscript.text = xhscript.responseText;
+            document.body.appendChild(htmlscript);
+            onLoadItem();
+        }
+    }
+    xhscript.send();
+    //
+    //
+    // ** Kind of Works **
+    //const scriptExp = document.createElement("script");
+    //scriptExp.src = "./components/experience.js";
+    //document.body.appendChild(scriptExp);
+    //onLoadItem();
 }
 
 

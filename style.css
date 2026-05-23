@@ -152,6 +152,63 @@ footer {
     margin: 5px;
 }
 
+.main-container {
+    height: fit-content;
+}
+
+.btn-tui {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    border: 1px var(--accent) solid;
+    padding: 3px;
+    margin: 5px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.btn-tui:hover {
+    background-color: var(--highlight);
+    border: 1px var(--highlight) solid;
+    color: var(--background);
+}
+
+/* Start Experience section */
+/* TODO: Move to it's own css file */
+
+input[type="radio"]+label {
+    width: fit-content;
+    height: fit-content;
+    display: block;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked+label {
+    .btn-tui {
+        background-color: var(--secondAccent);
+        border: 1px var(--secondAccent) solid;
+        color: var(--text);
+    }
+}
+
+.exp-selector {
+    display: flex;
+    justify-content: center;
+
+    .btn-tui {
+        width: 28px;
+        height: 28px;
+        text-align: center;
+        align-content: center;
+    }
+}
+
+/* Finish experience section */
+
 @media screen and (min-width: 1024px) {
     .my-links {
         ul {
