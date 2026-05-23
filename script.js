@@ -6,7 +6,7 @@ const componentState = {
 
 const abc = "01";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
 const freq = 2;
-const parallelfreq = 30;
+const parallelfreq = 15;
 
 function componentStateInit() {
     const summaryComponent = document.querySelector('#summary');
@@ -66,43 +66,53 @@ function evaluateElement(el) {
 }
 
 function randomizeParallelText(el) {
-    const element = document.querySelector(el);
-    const content = element.innerText;
-    const mapabc = new Map();
-    const textSplit = content.split('');
-    textSplit.forEach((letter, ind) => {
-        if (mapabc.has(letter)) {
-            const obj = mapabc.get(letter);
-            obj.arrind.push(ind);
-        } else {
-            const count = Math.floor(Math.random() * parallelfreq);
-            mapabc.set(letter, { arrind: [ind], cnt: count });
-        }
+    const elements = document.querySelectorAll(el);
+    if (!elements) {
+        return;
+    }
+
+    nodesEl = [];
+
+    elements.forEach(element => {
+        const content = element.innerText;
+        const mapabc = new Map();
+        const textSplit = content.split('');
+        textSplit.forEach((letter, ind) => {
+            if (mapabc.has(letter)) {
+                const obj = mapabc.get(letter);
+                obj.arrind.push(ind);
+            } else {
+                const count = Math.floor(Math.random() * parallelfreq);
+                mapabc.set(letter, { arrind: [ind], cnt: count });
+            }
+        });
+        nodesEl.push({ textSplit, mapabc, element });
     });
+
 
     let total = parallelfreq;
     const myinterval = setInterval(() => {
-        mapabc.forEach((v, k) => {
-            const posabc = Math.floor(Math.random() * abc.length);
-            if (k == ' ') {
-                return;
-            }
-
-            if (v.cnt < 0) {
-                return;
-            } else if (v.cnt == 0) {
-                v.arrind.forEach(num => {
-                    textSplit[num] = k;
-                })
-            } else {
-                v.arrind.forEach(num => {
-                    textSplit[num] = abc[posabc];
-                });
-            }
-            v.cnt--;
+        nodesEl.forEach(el => {
+            el.mapabc.forEach((v, k) => {
+                const posabc = Math.floor(Math.random() * abc.length);
+                if (k == ' ') {
+                    return;
+                }
+                if (v.cnt < 0) {
+                    return;
+                } else if (v.cnt == 0) {
+                    v.arrind.forEach(num => {
+                        el.textSplit[num] = k;
+                    })
+                } else {
+                    v.arrind.forEach(num => {
+                        el.textSplit[num] = abc[posabc];
+                    });
+                }
+                v.cnt--;
+            });
+            el.element.innerText = el.textSplit.join('');
         });
-
-        element.innerText = textSplit.join('');
         total--;
         if (total <= 0) {
             clearInterval(myinterval);
