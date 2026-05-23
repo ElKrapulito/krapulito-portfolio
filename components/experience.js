@@ -29,6 +29,7 @@ function onLoadItem(i = 0) {
     const jobSummary = document.querySelector("#job-summary");
     const jobHighlights = document.querySelector("#job-highlights");
 
+    clearHighlights(jobHighlights);
     const item = experience[i];
 
     companyName.textContent = item.company;
@@ -40,5 +41,12 @@ function onLoadItem(i = 0) {
         newLi.textContent = high;
         jobHighlights.append(newLi);
     });
+    randomizeContent(".highlight")
     //jobHighlights.remove();
+}
+
+function clearHighlights(highlights) {
+    for (let i = highlights.children.length - 1; i >= 0; i--) {
+        highlights.children[i].remove();
+    }
 }

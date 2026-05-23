@@ -1,17 +1,19 @@
-let componentState;
+const componentState = {
+    summary: { element: null, script: null, load: false },
+    experience: { element: null, script: null, load: false },
+    main: { element: null, script: null, load: false }
+};
 
-const abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
+const abc = "01";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
 const freq = 2;
 
 function componentStateInit() {
     const summaryComponent = document.querySelector('#summary');
     const experienceComponent = document.querySelector('#experience');
     const mainElement = document.querySelector('main');
-    componentState = {
-        summary: summaryComponent,
-        experience: experienceComponent,
-        main: mainElement
-    }
+    componentState.summary.element = summaryComponent;
+    componentState.experience.element = experienceComponent;
+    componentState.main.element = mainElement;
 }
 
 function main() {
@@ -21,7 +23,7 @@ function main() {
 }
 
 function clearMain() {
-    const mainElement = componentState.main;
+    const mainElement = componentState.main.element;
     for (let i = mainElement.children.length - 1; i >= 0; i--) {
         mainElement.children[i].remove();
     }
@@ -63,15 +65,18 @@ function evaluateElement(el) {
 }
 
 function displayComponent(component) {
-    const mainElement = componentState.main;
+    const mainElement = componentState.main.element;
     clearMain();
     switch (component) {
         case 'summary':
-            mainElement.appendChild(componentState.summary);
+            mainElement.appendChild(componentState.summary.element);
             break;
         case 'experience':
-            mainElement.appendChild(componentState.experience);
-            onLoadExperience();
+            mainElement.appendChild(componentState.experience.element);
+            if (!componentState.experience.load) {
+                onLoadExperience();
+                componentState.experience.load = true;
+            }
             break;
         case 'proyects':
             break;
@@ -84,15 +89,12 @@ function onLoadExperience() {
     const xhr = new XMLHttpRequest();
     const xhscript = new XMLHttpRequest();
 
-    xhr.open("GET", "./components/experience-item.html");
+    xhr.open("GET", "./components/experience.html");
     xhr.onload = () => {
-        componentState.experience.innerHTML = xhr.responseText;
-        //const jobDetail = document.querySelector("#job-description");
-        //jobDetail.innerHTML = xhr.responseText;
+        componentState.experience.element.innerHTML = xhr.responseText;
     }
     xhr.send();
 
-    // ** Works **
     xhscript.open("GET", "./components/experience.js");
     xhscript.onreadystatechange = () => {
         if (xhscript.readyState == xhscript.DONE) {
@@ -100,16 +102,10 @@ function onLoadExperience() {
             htmlscript.text = xhscript.responseText;
             document.body.appendChild(htmlscript);
             onLoadItem();
+            componentState.experience.script = htmlscript;
         }
     }
     xhscript.send();
-    //
-    //
-    // ** Kind of Works **
-    //const scriptExp = document.createElement("script");
-    //scriptExp.src = "./components/experience.js";
-    //document.body.appendChild(scriptExp);
-    //onLoadItem();
 }
 
 
