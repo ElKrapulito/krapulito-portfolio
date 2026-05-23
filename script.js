@@ -6,6 +6,7 @@ const componentState = {
 
 const abc = "01";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
 const freq = 2;
+const parallelfreq = 30;
 
 function componentStateInit() {
     const summaryComponent = document.querySelector('#summary');
@@ -62,6 +63,52 @@ function evaluateElement(el) {
     }
     el.element.innerText = el.ogtxt.slice(0, el.letterToAppear) + newContent.join('')
     el.cnt--;
+}
+
+function randomizeParallelText(el) {
+    const element = document.querySelector(el);
+    const content = element.innerText;
+    const mapabc = new Map();
+    const textSplit = content.split('');
+    textSplit.forEach((letter, ind) => {
+        if (mapabc.has(letter)) {
+            const obj = mapabc.get(letter);
+            obj.arrind.push(ind);
+        } else {
+            const count = Math.floor(Math.random() * parallelfreq);
+            mapabc.set(letter, { arrind: [ind], cnt: count });
+        }
+    });
+
+    let total = parallelfreq;
+    const myinterval = setInterval(() => {
+        mapabc.forEach((v, k) => {
+            const posabc = Math.floor(Math.random() * abc.length);
+            if (k == ' ') {
+                return;
+            }
+
+            if (v.cnt < 0) {
+                return;
+            } else if (v.cnt == 0) {
+                v.arrind.forEach(num => {
+                    textSplit[num] = k;
+                })
+            } else {
+                v.arrind.forEach(num => {
+                    textSplit[num] = abc[posabc];
+                });
+            }
+            v.cnt--;
+        });
+
+        element.innerText = textSplit.join('');
+        total--;
+        if (total <= 0) {
+            clearInterval(myinterval);
+        }
+    }, 75);
+
 }
 
 function displayComponent(component) {
