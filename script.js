@@ -65,28 +65,37 @@ function evaluateElement(el) {
     el.cnt--;
 }
 
-function randomizeParallelText(el) {
-    const elements = document.querySelectorAll(el);
+function randomizeParallelText(queries) {
+    const elements = [];
+    queries.forEach(query => {
+        elements.push(document.querySelectorAll(query));
+    });
     if (!elements) {
+        console.log("didn't get anything bye!");
         return;
     }
 
     nodesEl = [];
 
     elements.forEach(element => {
-        const content = element.innerText;
-        const mapabc = new Map();
-        const textSplit = content.split('');
-        textSplit.forEach((letter, ind) => {
-            if (mapabc.has(letter)) {
-                const obj = mapabc.get(letter);
-                obj.arrind.push(ind);
-            } else {
-                const count = Math.floor(Math.random() * parallelfreq);
-                mapabc.set(letter, { arrind: [ind], cnt: count });
+        element.forEach(eli => {
+            if (eli.length <= 0) {
+                return;
             }
+            const content = eli.innerText;
+            const mapabc = new Map();
+            const textSplit = content.split('');
+            textSplit.forEach((letter, ind) => {
+                if (mapabc.has(letter)) {
+                    const obj = mapabc.get(letter);
+                    obj.arrind.push(ind);
+                } else {
+                    const count = Math.floor(Math.random() * parallelfreq);
+                    mapabc.set(letter, { arrind: [ind], cnt: count });
+                }
+            });
+            nodesEl.push({ textSplit, mapabc, element: eli });
         });
-        nodesEl.push({ textSplit, mapabc, element });
     });
 
 
@@ -127,12 +136,17 @@ function displayComponent(component) {
     switch (component) {
         case 'summary':
             mainElement.appendChild(componentState.summary.element);
+            randomizeContent('.highlight');
+            randomizeParallelText(['p']);
             break;
         case 'experience':
             mainElement.appendChild(componentState.experience.element);
             if (!componentState.experience.load) {
                 onLoadExperience();
                 componentState.experience.load = true;
+            } else {
+                randomizeContent('.highlight');
+                randomizeParallelText(['p', 'li', 'i']);
             }
             break;
         case 'proyects':
@@ -163,6 +177,10 @@ function onLoadExperience() {
         }
     }
     xhscript.send();
+    document.addEventListener("radioChanged", () => {
+        randomizeContent('.highlight');
+        randomizeParallelText(['p', 'li', 'i']);
+    });
 }
 
 

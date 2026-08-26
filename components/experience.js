@@ -22,6 +22,8 @@ const experience = [{
 }
 ];
 
+const radioUpdate = new Event('radioChanged');
+
 function onLoadItem(i = 0) {
     const companyName = document.querySelector("#job-title");
     const roleDetail = document.querySelector("#role-detail");
@@ -30,7 +32,7 @@ function onLoadItem(i = 0) {
     const jobHighlights = document.querySelector("#job-highlights");
 
     clearHighlights(jobHighlights);
-    const item = experience[i];
+    const item = JSON.parse(JSON.stringify(experience[i]));
 
     companyName.textContent = item.company;
     roleDetail.textContent = item.role;
@@ -41,7 +43,9 @@ function onLoadItem(i = 0) {
         newLi.textContent = high;
         jobHighlights.append(newLi);
     });
-    randomizeContent(".highlight")
+
+    document.dispatchEvent(radioUpdate);
+
     //jobHighlights.remove();
 }
 
