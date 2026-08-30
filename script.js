@@ -149,7 +149,7 @@ function displayComponent(component) {
                 randomizeParallelText(['p', 'li', 'i']);
             }
             break;
-        case 'proyects':
+        case 'projects':
             break;
         case 'extra':
             break;
@@ -167,12 +167,12 @@ function onLoadExperience() {
     xhr.send();
 
     xhscript.open("GET", "./components/experience.js");
-    xhscript.onreadystatechange = () => {
+    xhscript.onreadystatechange = async () => {
         if (xhscript.readyState == xhscript.DONE) {
             const htmlscript = document.createElement("script");
             htmlscript.text = xhscript.responseText;
             document.body.appendChild(htmlscript);
-            onLoadItem();
+            await onLoadItem();
             componentState.experience.script = htmlscript;
         }
     }

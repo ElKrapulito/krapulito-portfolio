@@ -1,0 +1,85 @@
+{
+    "buttons": [
+        {
+            "id": "btn-summary",
+            "content": "About Me"
+        },
+        {
+            "id": "btn-download-cv",
+            "content": "Download CV"
+        },
+        {
+            "id": "btn-projects",
+            "content": "Projects"
+        },
+        {
+            "id": "btn-experience",
+            "content": "Experience"
+        }
+    ],
+    "summary": {
+        "title": "Summary",
+        "body": [
+            "I'm a Full Stack Developer with experience building distributed SaaS applications, including a project management platform similar to Jira or Trello. I focus on creating efficient, scalable solutions from implementing task-cloning features that boost productivity, to designing caching strategies with IndexedDB that reduce backend load.",
+            "I prioritize accessibility and usability, having brought a website into compliance with the California Accessibility Act (WCAG 2.0/2.1) through audits and assistive technology enhancements. My work also includes cloud integrations like AWS S3 for file storage and Microsoft Azure's translation API for real-time voice translation.",
+            "My technical toolkit includes Angular, Ionic, Spring Boot, NestJs, Java, TypeScript, and cloud services such as AWS EC2, S3, and Elastic Search. I hold a Software Engineering degree from NUR University in Bolivia and thrive in agile, Scrum-based environments.",
+            "I'm passionate about building clean, performant, and inclusive web applications that make a difference."
+        ]
+    },
+    "experience": {
+        "title": "Experience",
+        "body": [
+            {
+                "company": "Digital Harbor",
+                "role": "Fullstack Developer",
+                "mode": "Remote",
+                "date": "02/23 - 02/26",
+                "summary": "Worked on a development cycle management project like Jira or Trello where I develop the multiple features.",
+                "highlights": [
+                    "Made a feature to clone tasks that would increase productivity by creating tasks that share similar attributes and then allowing the user to modify the data of the new task.",
+                    "Designed and implemented a caching strategy using IndexedDB to store responses from high-traffic endpoints, reducing backend load. Introduced a custom cache eviction mechanism to optimize performance and ensure efficient resource utilization.",
+                    "Updated a website to comply with California Accessibility Act (AA) standards by applying WCAG 2.0/2.1 guidelines, performing accessibility audits, and enhancing compatibility with assistive technologies."
+                ]
+            },
+            {
+                "company": "Squaads",
+                "role": "Fullstack Developer",
+                "mode": "Remote",
+                "date": "03/22 - 02/23",
+                "summary": "Worked in two different projects one was a real time translator app for conferences and the other was an animal breeding management app.",
+                "highlights": [
+                    "Implemented roles and permissions system using CASL for a platform that controls different types of animals and breeds.",
+                    "Developed a DropBox like functionality so users with administrative roles could upload and retrieve files related to reports of the animals, the files were stored in AWS S3 Bucket.",
+                    "Integrated Microsoft Azure’s translation API for real time voice translation."
+                ]
+            },
+            {
+                "company": "QSM Solutions",
+                "role": "Frontend Developer",
+                "mode": "Hybrid",
+                "date": "01/22 - 03/22",
+                "summary": "The application is a mobile application for condominium management.",
+                "highlights": [
+                    "Repaired visual defects on a Ionic mobile application to make it suitable for Iphone devices."
+                ]
+            }
+        ]
+    },
+    "projects": {
+        "title": "Projects",
+        "body": [
+            {
+                "link": "https://github.com/ElKrapulito/cat-hat-decomp",
+                "summary": "This is a personal project in which I'm decompiling a playstation 2 video game called Dr. Seuss The Cat in the Hat from 2003 using AI assistance. My objective with this project was to test agents in the assistance of decompiling and see how AI performs in this task of decompilations. This project is being develop in C and with inspirations in other projects such as [Silent Hill 3 decomp]() [Shadow of the Colossus decomp]() and [God Hand decomp]() to better guide the structure of the project and tools they use to improve development."
+            },
+            {
+                "link": "https://github.com/ElKrapulito/chip-8.git",
+                "summary": "I built this project to improve my learning in C and also to learn the basic of how an emulator works. This is the Chip 8 and while is the 'Hello World' of emulators is actually an interpreter. I've learnt a lot in this project and for the graphics I've used a library called SDL."
+            },
+            {
+                "link": "https://github.com/ElKrapulito/my-page",
+                "summary": "This is the repository of this page which also uses another project where I've implemented the Conways Game of life using Webgl2 to use it to learn bit of shader programing and the basics of it. And the UI is inspired in a TUI interface."
+            }
+        ]
+    }
+}

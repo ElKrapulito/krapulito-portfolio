@@ -7,7 +7,12 @@
     <title>Samuel Cordova</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="" href="./style.css">
+    <script src="./script.js"></script>
+    <script src="./scripts/loaderstring.js"></script>
+    <!-- <script src="./scripts/parse-txt.js"></script> -->
+    <script type="module" src="./game-of-life/dist/main.js"></script>
 </head>
+
 
 <body>
     <canvas id="life"></canvas>
@@ -43,7 +48,8 @@
             <nav class="tui-style tabs">
                 <button class="btn" onclick="displayComponent('summary')">About Me</button>
                 <button class="btn" onclick="displayComponent('experience')">Experience</button>
-                <button class="btn" onclick="displayComponent('proyects')">Proyects</button>
+                <button class="btn" onclick="displayComponent('projects')">Projects</button>
+                <button class="btn" onclick="loadContent()">Test</button>
             </nav>
             <main class="main-container tui-style">
                 <div id="summary">
@@ -78,7 +84,5 @@
         </div>
     </div>
 </body>
-<script src="./script.js"></script>
-<script type="module" src="./game-of-life/dist/main.js"></script>
 
 </html>
