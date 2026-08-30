@@ -19,7 +19,6 @@ const getContent = function() {
     return async function*() {
         if (!text) {
             text = await findText();
-            console.log("fetch");
         }
         return text;
     }

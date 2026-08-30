@@ -30,7 +30,6 @@ function clearMain() {
     }
 }
 
-
 function randomizeContent(elementclass) {
     const myelements = document.querySelectorAll(elementclass);
     if (!myelements) {
@@ -160,19 +159,19 @@ function onLoadExperience() {
     const xhr = new XMLHttpRequest();
     const xhscript = new XMLHttpRequest();
 
-    xhr.open("GET", "./components/experience.html");
+    xhr.open("GET", "./components/experience/experience.html");
     xhr.onload = () => {
         componentState.experience.element.innerHTML = xhr.responseText;
     }
     xhr.send();
 
-    xhscript.open("GET", "./components/experience.js");
+    xhscript.open("GET", "./components/experience/experience.js");
     xhscript.onreadystatechange = async () => {
         if (xhscript.readyState == xhscript.DONE) {
             const htmlscript = document.createElement("script");
             htmlscript.text = xhscript.responseText;
             document.body.appendChild(htmlscript);
-            await onLoadItem();
+            await initExperience();
             componentState.experience.script = htmlscript;
         }
     }
