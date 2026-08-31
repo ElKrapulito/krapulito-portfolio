@@ -1,20 +1,10 @@
-const componentState = {
-    summary: { element: null, script: null, load: false },
-    experience: { element: null, script: null, load: false },
-    main: { element: null, script: null, load: false }
-};
-
 const abc = "01";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.[]{}()!@#$%^&*<>`~|\\";
 const freq = 2;
 const parallelfreq = 15;
 
 function componentStateInit() {
-    const summaryComponent = document.querySelector('#summary');
-    const experienceComponent = document.querySelector('#experience');
     const mainElement = document.querySelector('main');
-    componentState.summary.element = summaryComponent;
-    componentState.experience.element = experienceComponent;
-    componentState.main.element = mainElement;
+    addComponentToState("main", mainElement);
 }
 
 function main() {
@@ -24,7 +14,10 @@ function main() {
 }
 
 function clearMain() {
-    const mainElement = componentState.main.element;
+    const mainElement = getComponentState().main.element;
+    if (!mainElement?.children) {
+        return;
+    }
     for (let i = mainElement.children.length - 1; i >= 0; i--) {
         mainElement.children[i].remove();
     }
@@ -129,24 +122,40 @@ function randomizeParallelText(queries) {
 
 }
 
-function displayComponent(component) {
-    const mainElement = componentState.main.element;
+async function displayComponent(component) {
+    const state = getComponentState();
+    const mainElement = state.main.element;
     clearMain();
     switch (component) {
         case 'summary':
-            mainElement.appendChild(componentState.summary.element);
+            const bool = await loadComponent("summary", "../components/summary/summary.html", "../components/summary/summary.js");
+            if (!bool) {
+                return;
+            }
+            mainElement.appendChild(state.summary.element);
             randomizeContent('.highlight');
             randomizeParallelText(['p']);
             break;
         case 'experience':
-            mainElement.appendChild(componentState.experience.element);
-            if (!componentState.experience.load) {
-                onLoadExperience();
-                componentState.experience.load = true;
-            } else {
-                randomizeContent('.highlight');
-                randomizeParallelText(['p', 'li', 'i']);
+            const exp_loaded = await loadComponent(
+                "experience",
+                "../components/experience/experience.html",
+                "../components/experience/experience.js",
+                () => {
+                    document.addEventListener("radioChanged", () => {
+                        randomizeContent('.highlight');
+                        randomizeParallelText(['p', 'li', 'i']);
+                    });
+                });
+            if (!exp_loaded) {
+                return;
             }
+            mainElement.appendChild(state.experience.element);
+            document.head.appendChild(state.experience.script);
+            init();
+            // randomizeContent('.highlight');
+            // randomizeParallelText(['p', 'li', 'i']);
+
             break;
         case 'projects':
             break;
@@ -171,7 +180,7 @@ function onLoadExperience() {
             const htmlscript = document.createElement("script");
             htmlscript.text = xhscript.responseText;
             document.body.appendChild(htmlscript);
-            await initExperience();
+            await init();
             componentState.experience.script = htmlscript;
         }
     }

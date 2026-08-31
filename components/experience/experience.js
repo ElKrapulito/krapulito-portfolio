@@ -40,7 +40,7 @@ async function setUpButtons() {
         const newInput = inputTemplate.cloneNode();
         newInput.setAttribute("id", `sel${i}`);
         newInput.setAttribute("value", `${i}`);
-        newInput.addEventListener("click", () => {onLoadItem(i)})
+        newInput.addEventListener("click", () => { onLoadItem(i) })
         if (i == 0) {
             newInput.setAttribute("checked", "true");
         }
@@ -57,12 +57,22 @@ async function setUpButtons() {
     }
 }
 
-async function initExperience() {
-    await onLoadItem();
-    await setUpButtons();
-}
+const init = function() {
+    let hasInit = false;
+    return async function() {
+        if (hasInit) {
+            return;
+        }
+        await onLoadItem();
+        await setUpButtons();
+        hasInit = true;
+    }
+}();
 
 function clearHighlights(highlights) {
+    if (!highlights?.children) {
+        return;
+    }
     for (let i = highlights.children.length - 1; i >= 0; i--) {
         highlights.children[i].remove();
     }
@@ -70,5 +80,5 @@ function clearHighlights(highlights) {
 
 async function wrapperGetContent() {
     // Creating wrapper since this function comes from another script: ./scripts/loaderstring.js
-    return singletonLoadContent(); 
+    return singletonLoadContent();
 }
