@@ -1,8 +1,11 @@
 import utils from './helper.js';
 let position;
 let resolution;
+let glColorTile;
 let previousTime = 0;
 const separation = 4;
+let gofClearColor;
+let gofTileColor;
 async function main() {
     const canvas = document.querySelector('#life');
     if (!canvas) {
@@ -17,14 +20,17 @@ async function main() {
     }
     const rowCount = Math.floor(gl.canvas.height / separation);
     const columnCount = Math.floor(gl.canvas.width / separation);
+    const bodyStyles = window.getComputedStyle(document.body);
+    const backgroundColor = bodyStyles.getPropertyValue('--background');
+    const textColor = bodyStyles.getPropertyValue('--text');
+    gofClearColor = convertHexToRgb(backgroundColor.trim());
+    gofTileColor = convertHexToRgb(textColor.trim())
     const game = [];
     initGame(game, rowCount, columnCount);
-    console.log(game);
-    console.log(rowCount);
-    console.log(columnCount);
     const program = await utils.createProgram(gl,"./effects/game-of-life/shaders/vertexShader.glsl", "./effects/game-of-life/shaders/fragmentShader.glsl");
     position = gl.getAttribLocation(program, "a_position");
     resolution = gl.getUniformLocation(program, "u_resolution");
+    glColorTile = gl.getUniformLocation(program, "colorIn");
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bindVertexArray(gl.createVertexArray());
     gl.enableVertexAttribArray(position);
@@ -36,9 +42,10 @@ async function main() {
     gl.vertexAttribPointer(position, size, type, normalize, stride, offset);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.useProgram(program);
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(gofClearColor[0], gofClearColor[1], gofClearColor[2], 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.uniform2fv(resolution, [gl.canvas.width, gl.canvas.height]);
+    gl.uniform3fv(glColorTile, [gofTileColor[0], gofTileColor[1], gofTileColor[2]]); 
     //drawGrid(gl);
     drawSquares(gl, game, rowCount, columnCount);
     play(gl, program, game, rowCount, columnCount);
@@ -178,6 +185,30 @@ function newGeneration(game, rowCount, columnCount) {
         }
     }
     return newGeneration;
+}
+function convertHexToRgb(hexVal) {
+    let ret;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexVal)) {
+        ret = hexVal.slice(1);
+        ret = ret.split('');
+        if (ret.length == 3) {
+            let ar = [];
+            ar.push(ret[0]);
+            ar.push(ret[0]);
+            ar.push(ret[1]);
+            ar.push(ret[1]);
+            ar.push(ret[2]);
+            ar.push(ret[2]);
+            ret = ar;
+        }
+        ret = '0x' + ret.join('');
+        let r = (ret >> 16) & 255;
+        let g = (ret >> 8) & 255;
+        let b = ret & 255;
+        return [r/255, g/255, b/255]
+    } else {
+        return [1, 0, 0]
+    }
 }
 document.addEventListener('DOMContentLoaded', async () => {
     await main();

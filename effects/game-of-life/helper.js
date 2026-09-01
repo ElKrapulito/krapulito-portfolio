@@ -3,7 +3,6 @@ async function fetchShaderUrl(url) {
     xhr.open("GET", url);
     const promise = new Promise((resolve, reject) => {
         xhr.onload = () => {
-            console.log("response shader", xhr.response);
             resolve(xhr.response);
         };
         xhr.onerror = (e) => {
