@@ -55,16 +55,22 @@ async function setUpButtons() {
         parent.appendChild(newInput);
         parent.appendChild(newLabel);
     }
+
+    document.addEventListener("radioChanged", () => {
+        randomizeContent('.highlight');
+        randomizeParallelText(['p', 'li', 'i']);
+    });
+
 }
 
-const init = function() {
+var init = function() {
     let hasInit = false;
     return async function() {
         if (hasInit) {
             return;
         }
-        await onLoadItem();
         await setUpButtons();
+        await onLoadItem();
         hasInit = true;
     }
 }();

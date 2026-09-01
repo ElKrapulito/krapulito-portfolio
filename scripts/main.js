@@ -4,12 +4,11 @@ const parallelfreq = 15;
 
 function componentStateInit() {
     const mainElement = document.querySelector('main');
-    addComponentToState("main", mainElement);
+    setRootComponent("main", mainElement);
 }
 
 function main() {
     componentStateInit();
-    clearMain();
     displayComponent('summary')
 }
 
@@ -123,39 +122,18 @@ function randomizeParallelText(queries) {
 }
 
 async function displayComponent(component) {
-    const state = getComponentState();
-    const mainElement = state.main.element;
-    clearMain();
     switch (component) {
         case 'summary':
-            const bool = await loadComponent("summary", "../components/summary/summary.html", "../components/summary/summary.js");
-            if (!bool) {
-                return;
-            }
-            mainElement.appendChild(state.summary.element);
-            randomizeContent('.highlight');
-            randomizeParallelText(['p']);
+            await setFocusInRoot('summary', () => {
+                randomizeContent('.highlight');
+                randomizeParallelText(['p']);
+            });
             break;
         case 'experience':
-            const exp_loaded = await loadComponent(
-                "experience",
-                "../components/experience/experience.html",
-                "../components/experience/experience.js",
-                () => {
-                    document.addEventListener("radioChanged", () => {
-                        randomizeContent('.highlight');
-                        randomizeParallelText(['p', 'li', 'i']);
-                    });
-                });
-            if (!exp_loaded) {
-                return;
-            }
-            mainElement.appendChild(state.experience.element);
-            document.head.appendChild(state.experience.script);
-            init();
-            // randomizeContent('.highlight');
-            // randomizeParallelText(['p', 'li', 'i']);
-
+            await setFocusInRoot('experience', () => {
+                randomizeContent('.highlight');
+                randomizeParallelText(['p', 'li', 'i']);
+            });
             break;
         case 'projects':
             break;

@@ -1,10 +1,17 @@
+const rootState = {
+    rootName: "main",
+    children: ["experience", "summary"],
+    currentFocus: "summary"
+}
+
 const componentState = {
     summary: { element: null, script: null, load: false },
     experience: { element: null, script: null, load: false },
     main: { element: null, script: null, load: false }
 };
 
-async function loadComponent(componentElement, urlHtml, urlScript, callback) {
+
+async function loadComponent(componentElement, urlHtml, urlScript) {
     if (componentState[componentElement] && componentState[componentElement].load) {
         console.log("Element already loaded");
         return Promise.resolve(true);
@@ -17,12 +24,12 @@ async function loadComponent(componentElement, urlHtml, urlScript, callback) {
     const prom_html = new Promise((resolve, reject) => {
         xhr.onload = () => {
             const newElement = document.createElement("div");
-            if (!xhr.responseText) {
-                reject(false);
-            }
             newElement.innerHTML = xhr.responseText;
             componentState[componentElement].element = newElement;
             resolve(true);
+        }
+        xhr.onerror = (e) => {
+            reject(e);
         }
     });
 
@@ -40,26 +47,64 @@ async function loadComponent(componentElement, urlHtml, urlScript, callback) {
                 resolve(true);
             }
         }
+        xhscript.onerror = (e) => {
+            reject(e);
+        }
     });
     xhscript.send();
-
-    if (callback) {
-        callback();
-    }
 
     return Promise.all([prom_html, prom_script]);
 }
 
 function addComponentToState(componentName, component) {
     componentState[componentName].element = component;
+    componentState[componentName].load = true;
 }
 
 function getComponentState() {
     return componentState;
 }
 
-function unloadComponent(componentName) {
-    const stateComponent = componentState[componentName];
-    stateComponent.element.remove();
-    stateComponent.script.remove();
+function unloadComponent() {
+    const stateComponent = componentState[rootState.currentFocus];
+    if (stateComponent?.element) {
+        stateComponent.element.remove();
+    }
+
+    if (stateComponent?.script) {
+        stateComponent.script.remove();
+    }
+}
+
+function setRootComponent(name, componentElement) {
+    rootState.rootName = name;
+    addComponentToState(name, componentElement);
+}
+
+async function setFocusInRoot(elementNameToFocus, callback) {
+    unloadComponent(rootState.currentFocus);
+    await loadComponent(
+        elementNameToFocus,
+        `../components/${elementNameToFocus}/${elementNameToFocus}.html`,
+        `../components/${elementNameToFocus}/${elementNameToFocus}.js`
+    );
+    const rootEl = componentState[rootState.rootName].element;
+
+    if (componentState[elementNameToFocus]?.element) {
+        rootEl.appendChild(componentState[elementNameToFocus].element);
+    }
+
+    if (componentState[elementNameToFocus]?.script) {
+        document.head.appendChild(componentState[elementNameToFocus].script);
+    }
+
+    rootState.currentFocus = elementNameToFocus;
+
+    if (typeof init == 'function') {
+        init();
+    }
+
+    if (typeof callback == 'function') {
+        callback();
+    }
 }
