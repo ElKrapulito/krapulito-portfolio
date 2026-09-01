@@ -20,10 +20,13 @@ async function wrapperGetContentSummary() {
     return singletonLoadContent();
 }
 
-function init() {
-    const hasInit = false;
+var init = function() {
+    let hasInit = false;
     return async function() {
+        if (hasInit) {
+            return;
+        }
         await onLoadSummary();
         hasInit = true;
     }
-}
+}();

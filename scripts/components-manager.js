@@ -101,7 +101,7 @@ async function setFocusInRoot(elementNameToFocus, callback) {
     rootState.currentFocus = elementNameToFocus;
 
     if (typeof init == 'function') {
-        init();
+        await init();
     }
 
     if (typeof callback == 'function') {
