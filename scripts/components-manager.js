@@ -13,7 +13,6 @@ const componentState = {
 
 async function loadComponent(componentElement, urlHtml, urlScript) {
     if (componentState[componentElement] && componentState[componentElement].load) {
-        console.log("Element already loaded");
         return Promise.resolve(true);
     }
 

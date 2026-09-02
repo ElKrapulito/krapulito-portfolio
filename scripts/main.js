@@ -12,14 +12,14 @@ async function displayComponent(component) {
     switch (component) {
         case 'summary':
             await setFocusInRoot('summary', () => {
-                randomizeContent('.highlight');
-                randomizeParallelText(['p']);
+                // randomizeContent('.highlight');
+                randomizeParallelText(['.highlight', 'p']);
             });
             break;
         case 'experience':
             await setFocusInRoot('experience', () => {
-                randomizeContent('.highlight');
-                randomizeParallelText(['p', 'li', 'i']);
+                //randomizeContent('.highlight');
+                randomizeParallelText(['.highlight', 'p', 'li', 'i']);
             });
             break;
         case 'projects':

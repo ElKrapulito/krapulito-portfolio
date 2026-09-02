@@ -36,68 +36,80 @@ function evaluateElement(el) {
     el.cnt--;
 }
 
-function randomizeParallelText(queries) {
-    const elements = [];
-    queries.forEach(query => {
-        elements.push(document.querySelectorAll(query));
-    });
-    if (!elements) {
-        console.log("didn't get anything bye!");
-        return;
-    }
+const randomizeParallelText = function() {
+    let myinterval;
+    let nodesEl = [];
+    return function(queries) {
 
-    nodesEl = [];
-
-    elements.forEach(element => {
-        element.forEach(eli => {
-            if (eli.length <= 0) {
-                return;
-            }
-            const content = eli.innerText;
-            const mapabc = new Map();
-            const textSplit = content.split('');
-            textSplit.forEach((letter, ind) => {
-                if (mapabc.has(letter)) {
-                    const obj = mapabc.get(letter);
-                    obj.arrind.push(ind);
-                } else {
-                    const count = Math.floor(Math.random() * parallelfreq);
-                    mapabc.set(letter, { arrind: [ind], cnt: count });
-                }
-            });
-            nodesEl.push({ textSplit, mapabc, element: eli });
-        });
-    });
-
-
-    let total = parallelfreq;
-    const myinterval = setInterval(() => {
-        nodesEl.forEach(el => {
-            el.mapabc.forEach((v, k) => {
-                const posabc = Math.floor(Math.random() * abc.length);
-                if (k == ' ') {
-                    return;
-                }
-                if (v.cnt < 0) {
-                    return;
-                } else if (v.cnt == 0) {
-                    v.arrind.forEach(num => {
-                        el.textSplit[num] = k;
-                    })
-                } else {
-                    v.arrind.forEach(num => {
-                        el.textSplit[num] = abc[posabc];
-                    });
-                }
-                v.cnt--;
-            });
-            el.element.innerText = el.textSplit.join('');
-        });
-        total--;
-        if (total <= 0) {
+        if (myinterval && nodesEl) {
             clearInterval(myinterval);
+            myinterval = null;
+            nodesEl.forEach(el => {
+                el.element.innerText = el.ogTxt;
+            });
         }
-    }, 75);
 
-}
+        const elements = [];
+        queries.forEach(query => {
+            elements.push(document.querySelectorAll(query));
+        });
+
+        if (!elements) {
+            return;
+        }
+
+        nodesEl = [];
+        elements.forEach(element => {
+            element.forEach(eli => {
+                if (eli.length <= 0) {
+                    return;
+                }
+                const content = eli.innerText;
+                const mapabc = new Map();
+                const textSplit = content.split('');
+                textSplit.forEach((letter, ind) => {
+                    if (mapabc.has(letter)) {
+                        const obj = mapabc.get(letter);
+                        obj.arrind.push(ind);
+                    } else {
+                        const count = Math.floor(Math.random() * parallelfreq);
+                        mapabc.set(letter, { arrind: [ind], cnt: count });
+                    }
+                });
+                nodesEl.push({ textSplit, mapabc, element: eli , ogTxt: content.repeat(1)});
+            });
+        });
+
+        let total = parallelfreq;
+        myinterval = setInterval(() => {
+            nodesEl.forEach(el => {
+                el.mapabc.forEach((v, k) => {
+                    const posabc = Math.floor(Math.random() * abc.length);
+                    if (k == ' ') {
+                        return;
+                    }
+                    if (v.cnt < 0) {
+                        return;
+                    } else if (v.cnt == 0) {
+                        v.arrind.forEach(num => {
+                            el.textSplit[num] = k;
+                        })
+                    } else {
+                        v.arrind.forEach(num => {
+                            el.textSplit[num] = abc[posabc];
+                        });
+                    }
+                    v.cnt--;
+                });
+                el.element.innerText = el.textSplit.join('');
+            });
+            total--;
+            if (total <= 0) {
+                clearInterval(myinterval);
+                myinterval = null;
+                nodesEl = [];
+            }
+        }, 75);
+    }
+}();
 
