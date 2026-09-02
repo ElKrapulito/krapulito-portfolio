@@ -24,6 +24,7 @@ var init = function() {
     let hasInit = false;
     return async function() {
         if (hasInit) {
+            randomizeParallelText(['.highlight', 'p']);
             return;
         }
         await onLoadSummary();

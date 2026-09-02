@@ -3,24 +3,18 @@ function componentStateInit() {
     setRootComponent("main", mainElement);
 }
 
-function main() {
+async function main() {
     componentStateInit();
-    displayComponent('summary')
+    await displayComponent('summary')
 }
 
 async function displayComponent(component) {
     switch (component) {
         case 'summary':
-            await setFocusInRoot('summary', () => {
-                // randomizeContent('.highlight');
-                randomizeParallelText(['.highlight', 'p']);
-            });
+            await setFocusInRoot('summary');
             break;
         case 'experience':
-            await setFocusInRoot('experience', () => {
-                //randomizeContent('.highlight');
-                randomizeParallelText(['.highlight', 'p', 'li', 'i']);
-            });
+            await setFocusInRoot('experience');
             break;
         case 'projects':
             break;
@@ -29,7 +23,8 @@ async function displayComponent(component) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    main();
+
+document.addEventListener("DOMContentLoaded", async () => {
+   await main();
 });
 

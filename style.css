@@ -10,6 +10,7 @@
 @font-face {
     font-family: "monaspace-krypton";
     src: url("./fonts/monaspace/Monaspace Krypton Var.woff2");
+    font-display: swap;
 }
 
 html {

@@ -80,7 +80,7 @@ function setRootComponent(name, componentElement) {
     addComponentToState(name, componentElement);
 }
 
-async function setFocusInRoot(elementNameToFocus, callback) {
+async function setFocusInRoot(elementNameToFocus) {
     unloadComponent(rootState.currentFocus);
     await loadComponent(
         elementNameToFocus,
@@ -101,9 +101,5 @@ async function setFocusInRoot(elementNameToFocus, callback) {
 
     if (typeof init == 'function') {
         await init();
-    }
-
-    if (typeof callback == 'function') {
-        callback();
     }
 }

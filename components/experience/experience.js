@@ -57,8 +57,7 @@ async function setUpButtons() {
     }
 
     document.addEventListener("radioChanged", () => {
-        randomizeContent('.highlight');
-        randomizeParallelText(['p', 'li', 'i']);
+        randomizeParallelText(['.highlight', 'p', '#job-highlights>li', 'i']);
     });
 
 }
@@ -67,6 +66,7 @@ var init = function() {
     let hasInit = false;
     return async function() {
         if (hasInit) {
+            randomizeParallelText(['.highlight', 'p', '#job-highlights>li', 'i']);
             return;
         }
         await setUpButtons();

@@ -45,7 +45,7 @@ const randomizeParallelText = function() {
             clearInterval(myinterval);
             myinterval = null;
             nodesEl.forEach(el => {
-                el.element.innerText = el.ogTxt;
+                el.element.textContent = el.ogTxt;
             });
         }
 
@@ -64,7 +64,7 @@ const randomizeParallelText = function() {
                 if (eli.length <= 0) {
                     return;
                 }
-                const content = eli.innerText;
+                const content = eli.textContent;
                 const mapabc = new Map();
                 const textSplit = content.split('');
                 textSplit.forEach((letter, ind) => {
@@ -101,7 +101,7 @@ const randomizeParallelText = function() {
                     }
                     v.cnt--;
                 });
-                el.element.innerText = el.textSplit.join('');
+                el.element.textContent = el.textSplit.join('');
             });
             total--;
             if (total <= 0) {
