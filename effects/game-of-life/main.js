@@ -6,6 +6,7 @@ let previousTime = 0;
 const separation = 4;
 let gofClearColor;
 let gofTileColor;
+let pauseGameOfLife = false;
 async function main() {
     const canvas = document.querySelector('#life');
     if (!canvas) {
@@ -22,12 +23,12 @@ async function main() {
     const columnCount = Math.floor(gl.canvas.width / separation);
     const bodyStyles = window.getComputedStyle(document.body);
     const backgroundColor = bodyStyles.getPropertyValue('--background');
-    const textColor = bodyStyles.getPropertyValue('--secondAccent');
+    const textColor = bodyStyles.getPropertyValue('--highlight');
     gofClearColor = convertHexToRgb(backgroundColor.trim());
     gofTileColor = convertHexToRgb(textColor.trim())
     const game = [];
     initGame(game, rowCount, columnCount);
-    const program = await utils.createProgram(gl,"./effects/game-of-life/shaders/vertexShader.glsl", "./effects/game-of-life/shaders/fragmentShader.glsl");
+    const program = await utils.createProgram(gl, "./effects/game-of-life/shaders/vertexShader.glsl", "./effects/game-of-life/shaders/fragmentShader.glsl");
     position = gl.getAttribLocation(program, "a_position");
     resolution = gl.getUniformLocation(program, "u_resolution");
     glColorTile = gl.getUniformLocation(program, "colorIn");
@@ -45,10 +46,11 @@ async function main() {
     gl.clearColor(gofClearColor[0], gofClearColor[1], gofClearColor[2], 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.uniform2fv(resolution, [gl.canvas.width, gl.canvas.height]);
-    gl.uniform3fv(glColorTile, [gofTileColor[0], gofTileColor[1], gofTileColor[2]]); 
+    gl.uniform3fv(glColorTile, [gofTileColor[0], gofTileColor[1], gofTileColor[2]]);
     //drawGrid(gl);
     drawSquares(gl, game, rowCount, columnCount);
     play(gl, program, game, rowCount, columnCount);
+    nextGeneration = nextGeneration(gl, game, rowCount, columnCount);
 }
 function drawGrid(gl) {
     const width = gl.canvas.width;
@@ -130,23 +132,31 @@ function drawSquares(gl, game, rowCount, columnCount) {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(liveSquresVertex), gl.STATIC_DRAW);
     gl.drawArrays(gl.TRIANGLES, 0, lives * 6);
 }
-let elapsed = 0;
-const frequency = 50;
-function play(gl, program, game, rowCount, columnCount) {
-    if (elapsed > frequency) {
+const play = function() {
+    let elapsed = 0;
+    const frequency = 50;
+    return function(gl, program, game, rowCount, columnCount) {
+        requestAnimationFrame((currentTime) => {
+            elapsed = currentTime - previousTime;
+            if (elapsed > frequency && !pauseGameOfLife) {
+                nextGeneration();
+                previousTime = currentTime;
+            }
+            play(gl, program, game, rowCount, columnCount);
+        });
+    }
+}();
+export function toggleGame() {
+    pauseGameOfLife = !pauseGameOfLife;
+}
+export let nextGeneration = function(gl, game, rowCount, columnCount) {
+    return function() {
         game = newGeneration(game, rowCount, columnCount);
-        gl.clearColor(0, 0, 0, 1);
+        gl.clearColor(gofClearColor[0], gofClearColor[1], gofClearColor[2], 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
         //drawGrid(gl);
         drawSquares(gl, game, rowCount, columnCount);
     }
-    requestAnimationFrame((currentTime) => {
-        elapsed = currentTime - previousTime;
-        if (elapsed > frequency) {
-            previousTime = currentTime;
-        }
-        play(gl, program, game, rowCount, columnCount);
-    });
 }
 function newGeneration(game, rowCount, columnCount) {
     let newGeneration = [];
@@ -205,7 +215,7 @@ function convertHexToRgb(hexVal) {
         let r = (ret >> 16) & 255;
         let g = (ret >> 8) & 255;
         let b = ret & 255;
-        return [r/255, g/255, b/255]
+        return [r / 255, g / 255, b / 255]
     } else {
         return [1, 0, 0]
     }

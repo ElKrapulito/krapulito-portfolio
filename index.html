@@ -16,7 +16,12 @@
 
 <body>
     <canvas id="life"></canvas>
-    <div class="background">
+    <div class="game-of-life-btns">
+        <button class="btn" onclick="togglePage()">Toggle Page</button>
+        <button class="btn" onclick="wrpToggleGame()">Toggle Game</button>
+        <button class="btn" onclick="nxtGen()">Next Generation</button>
+    </div>
+    <div id="main-container" class="background">
         <div class="container">
             <header class="header-flex">
                 <img class="tui-style profile-img profile-pic" src="./assets/profile-pic.jpg"

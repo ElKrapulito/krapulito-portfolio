@@ -108,6 +108,16 @@ footer {
     background-color: var(--background);
 }
 
+.game-of-life-btns {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    width: 100%;
+    gap: 3px;
+    justify-content: flex-end;
+}
+
 .background {
     position: absolute;
     overflow-y: scroll;
