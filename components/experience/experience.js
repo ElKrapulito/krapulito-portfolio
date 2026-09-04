@@ -10,13 +10,13 @@ async function onLoadItem(i = 0) {
     const jobHighlights = document.querySelector("#job-highlights");
 
     clearHighlights(jobHighlights);
-    const item = JSON.parse(JSON.stringify(content.experience.body[i]));
+    const item = content.experience.body[i];
 
-    title.textContent = content.experience.title.repeat(1);
-    companyName.textContent = item.company.repeat(1);
-    roleDetail.textContent = item.role.repeat(1);
-    dateJob.textContent = item.date.repeat(1);
-    jobSummary.textContent = item.summary.repeat(1);
+    title.textContent = content.experience.title;
+    companyName.textContent = item.company;
+    roleDetail.textContent = item.role;
+    dateJob.textContent = item.date;
+    jobSummary.textContent = item.summary;
     item.highlights.forEach(high => {
         const newLi = document.createElement("li");
         newLi.textContent = high;
@@ -66,6 +66,7 @@ var init = function() {
     let hasInit = false;
     return async function() {
         if (hasInit) {
+            console.log('running experience');
             randomizeParallelText(['.highlight', 'p', '#job-highlights>li', 'i']);
             return;
         }
@@ -73,7 +74,7 @@ var init = function() {
         await onLoadItem();
         hasInit = true;
     }
-}();
+};
 
 function clearHighlights(highlights) {
     if (!highlights?.children) {

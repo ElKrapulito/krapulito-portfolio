@@ -69,14 +69,17 @@
         "title": "Projects",
         "body": [
             {
+                "title": "Dr. Seuss Cat in the Hat Decompilation (2003)",
                 "link": "https://github.com/ElKrapulito/cat-hat-decomp",
                 "summary": "This is a personal project in which I'm decompiling a playstation 2 video game called Dr. Seuss The Cat in the Hat from 2003 using AI assistance. My objective with this project was to test agents in the assistance of decompiling and see how AI performs in this task of decompilations. This project is being develop in C and with inspirations in other projects such as [Silent Hill 3 decomp]() [Shadow of the Colossus decomp]() and [God Hand decomp]() to better guide the structure of the project and tools they use to improve development."
             },
             {
+                "title": "Chip 8 Emulator",
                 "link": "https://github.com/ElKrapulito/chip-8.git",
                 "summary": "I built this project to improve my learning in C and also to learn the basic of how an emulator works. This is the Chip 8 and while is the 'Hello World' of emulators is actually an interpreter. I've learnt a lot in this project and for the graphics I've used a library called SDL."
             },
             {
+                "title": "This page",
                 "link": "https://github.com/ElKrapulito/my-page",
                 "summary": "This is the repository of this page which also uses another project where I've implemented the Conways Game of life using Webgl2 to use it to learn bit of shader programing and the basics of it. And the UI is inspired in a TUI interface."
             }

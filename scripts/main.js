@@ -17,6 +17,7 @@ async function displayComponent(component) {
             await setFocusInRoot('experience');
             break;
         case 'projects':
+            await setFocusInRoot('projects');
             break;
         case 'extra':
             break;

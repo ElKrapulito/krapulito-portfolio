@@ -249,6 +249,10 @@ input[type="radio"]:checked+label {
 
 @media screen and (max-width: 414px) {
     .background {
-        backdrop-filter: blur(1px);
+        backdrop-filter: blur(5px);
+    }
+
+    .highlight {
+        text-shadow: none;
     }
 }

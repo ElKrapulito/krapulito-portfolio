@@ -24,10 +24,11 @@ var init = function() {
     let hasInit = false;
     return async function() {
         if (hasInit) {
+            console.log('running summary');
             randomizeParallelText(['.highlight', 'p']);
             return;
         }
         await onLoadSummary();
         hasInit = true;
     }
-}();
+};

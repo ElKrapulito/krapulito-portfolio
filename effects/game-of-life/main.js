@@ -22,7 +22,7 @@ async function main() {
     const columnCount = Math.floor(gl.canvas.width / separation);
     const bodyStyles = window.getComputedStyle(document.body);
     const backgroundColor = bodyStyles.getPropertyValue('--background');
-    const textColor = bodyStyles.getPropertyValue('--text');
+    const textColor = bodyStyles.getPropertyValue('--secondAccent');
     gofClearColor = convertHexToRgb(backgroundColor.trim());
     gofTileColor = convertHexToRgb(textColor.trim())
     const game = [];

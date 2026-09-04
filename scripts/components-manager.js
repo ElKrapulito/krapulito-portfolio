@@ -5,9 +5,9 @@ const rootState = {
 }
 
 const componentState = {
-    summary: { element: null, script: null, load: false },
-    experience: { element: null, script: null, load: false },
-    main: { element: null, script: null, load: false }
+    summary: { element: null, script: null, load: false, initFunc: {} },
+    experience: { element: null, script: null, load: false, initFunc: {} },
+    main: { element: null, script: null, load: false, initFunc: {} }
 };
 
 
@@ -42,6 +42,9 @@ async function loadComponent(componentElement, urlHtml, urlScript) {
                 htmlscript.text = xhscript.responseText;
                 document.head.appendChild(htmlscript);
                 componentState[componentElement].script = htmlscript;
+                if (xhscript.responseText.substring("init") && typeof init == 'function') {
+                    componentState[componentElement].initFunc = init();
+                }
                 componentState[componentElement].load = true;
                 resolve(true);
             }
@@ -81,7 +84,12 @@ function setRootComponent(name, componentElement) {
 }
 
 async function setFocusInRoot(elementNameToFocus) {
-    unloadComponent(rootState.currentFocus);
+    unloadComponent();
+
+    if (!componentState[elementNameToFocus]) {
+        componentState[elementNameToFocus] = {};
+    }
+
     await loadComponent(
         elementNameToFocus,
         `../components/${elementNameToFocus}/${elementNameToFocus}.html`,
@@ -99,7 +107,7 @@ async function setFocusInRoot(elementNameToFocus) {
 
     rootState.currentFocus = elementNameToFocus;
 
-    if (typeof init == 'function') {
-        await init();
+    if (typeof componentState[elementNameToFocus].initFunc == 'function') {
+        await componentState[elementNameToFocus].initFunc();
     }
 }
