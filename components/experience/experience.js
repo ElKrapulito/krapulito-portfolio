@@ -65,14 +65,12 @@ async function setUpButtons() {
 var init = function() {
     let hasInit = false;
     return async function() {
-        if (hasInit) {
-            console.log('running experience');
-            randomizeParallelText(['.highlight', 'p', '#job-highlights>li', 'i']);
-            return;
+        if (!hasInit) {
+            await setUpButtons();
+            await onLoadItem();
+            hasInit = true;
         }
-        await setUpButtons();
-        await onLoadItem();
-        hasInit = true;
+        randomizeParallelText(['.highlight', 'p', '#job-highlights>li', 'i']);
     }
 };
 

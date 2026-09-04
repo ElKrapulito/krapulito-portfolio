@@ -23,7 +23,7 @@ async function loadExperience() {
         newPjItem.setAttribute("id", `pj-item-${i}`);
         const pjSummary = document.createElement("p");
         pjSummary.textContent = bodyContent[i].summary;
-        
+
         newPjItem.appendChild(pjLink);
         newPjItem.appendChild(pjSummary);
 
@@ -40,11 +40,10 @@ async function wrapperGetContentProjects() {
 var init = function() {
     let hasInit = false;
     return async function() {
-        if (hasInit) {
-            console.log('running projects');
-            return;
+        if (!hasInit) {
+            await loadExperience();
+            hasInit = true;
         }
-        await loadExperience();
-        hasInit = true;
+        randomizeParallelText(['.highlight', 'p']);
     }
 };

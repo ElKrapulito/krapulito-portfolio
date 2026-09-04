@@ -23,12 +23,10 @@ async function wrapperGetContentSummary() {
 var init = function() {
     let hasInit = false;
     return async function() {
-        if (hasInit) {
-            console.log('running summary');
-            randomizeParallelText(['.highlight', 'p']);
-            return;
+        if (!hasInit) {
+            await onLoadSummary();
+            hasInit = true;
         }
-        await onLoadSummary();
-        hasInit = true;
+        randomizeParallelText(['.highlight', 'p']);
     }
 };
