@@ -118,6 +118,11 @@ footer {
     justify-content: flex-end;
 }
 
+#bg-svg {
+    display: block;
+    position: absolute;
+}
+
 .background {
     position: absolute;
     overflow-y: scroll;
@@ -127,7 +132,19 @@ footer {
     backdrop-filter: blur(7px);
 }
 
-
+.background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+  /* Link to the HTML SVG ID */
+  filter: url(#grainyNoise); 
+  
+  /* Blend mode and opacity ensure the grain stays subtle */
+  mix-blend-mode: overlay;
+  opacity: 0.15; 
+  pointer-events: none;
+}
 
 .btn {
     background: none;

@@ -21,6 +21,15 @@
         <button class="btn" onclick="wrpToggleGame()">Toggle Game</button>
         <button class="btn" onclick="nxtGen()">Next Generation</button>
     </div>
+<svg id="bg-svg">
+  <filter id='grainyNoise'>
+    <feTurbulence 
+      type='fractalNoise' 
+      baseFrequency='0.85' 
+      numOctaves='5' 
+      stitchTiles='stitch' />
+  </filter>
+</svg>
     <div id="main-container" class="background">
         <div class="container">
             <header class="header-flex">
