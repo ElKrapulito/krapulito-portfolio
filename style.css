@@ -108,14 +108,22 @@ footer {
     background-color: var(--background);
 }
 
-.game-of-life-btns {
-    display: flex;
+.container-game-controller {
     position: absolute;
     z-index: 2;
-    bottom: 0;
-    width: 100%;
-    gap: 3px;
-    justify-content: flex-end;
+    top: 0;
+    left: 10px;
+    background-color: white;
+    padding: 7px 12px;
+    border-radius: 25px;
+
+    .game-of-life-btns {
+        display: flex;
+        z-index: 3;
+        width: 100%;
+        gap: 3px;
+        justify-content: flex-end;
+    }
 }
 
 #bg-svg {
@@ -133,17 +141,17 @@ footer {
 }
 
 .background::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  
-  /* Link to the HTML SVG ID */
-  filter: url(#grainyNoise); 
-  
-  /* Blend mode and opacity ensure the grain stays subtle */
-  mix-blend-mode: overlay;
-  opacity: 0.15; 
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    /* Link to the HTML SVG ID */
+    filter: url(#grainyNoise);
+
+    /* Blend mode and opacity ensure the grain stays subtle */
+    mix-blend-mode: overlay;
+    opacity: 0.15;
+    pointer-events: none;
 }
 
 .btn {

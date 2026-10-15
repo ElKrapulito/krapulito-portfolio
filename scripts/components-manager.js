@@ -7,9 +7,8 @@ const rootState = {
 const componentState = {
     summary: { element: null, script: null, load: false, initFunc: {} },
     experience: { element: null, script: null, load: false, initFunc: {} },
-    main: { element: null, script: null, load: false, initFunc: {} }
+    main: { element: null, script: null, load: false, initFunc: {} },
 };
-
 
 async function loadComponent(componentElement, urlHtml, urlScript) {
     if (componentState[componentElement] && componentState[componentElement].load) {
@@ -83,6 +82,45 @@ function setRootComponent(name, componentElement) {
     addComponentToState(name, componentElement);
 }
 
+async function loadIndependentComponent(comp) {
+    const rgx = /\w+((\-|_|\s+)\w+)+/;
+    const splrgx = /\-|_|\s+/;
+    
+    if (!rgx.test(comp)) {
+        return;
+    }
+
+    const arrTxt = comp.split(splrgx);
+    arrTxt.forEach((it, i, arr) => {
+        if (i == 0) {
+            return;
+        }
+        it = it.charAt(0).toUpperCase() + it.slice(1);
+        arr[i] = it;
+    });
+    
+    const compName = arrTxt.join('');
+
+    if (!componentState[compName]) {
+        componentState[compName] = {};
+    }
+
+    await loadComponent(
+        compName,
+        `../components/${comp}/${comp}.html`,
+        `../components/${comp}/${comp}.js`
+    );
+
+    console.log(componentState);
+}
+
+async function addSimpleComponent(_comp) {
+    await loadIndependentComponent('game-controller');
+    // const rootEl = componentState[rootState.rootName].element;
+    document.body.appendChild(componentState["gameController"].element);
+    document.head.appendChild(componentState["gameController"].script);
+}
+
 async function setFocusInRoot(elementNameToFocus) {
     unloadComponent();
 
@@ -111,3 +149,4 @@ async function setFocusInRoot(elementNameToFocus) {
         await componentState[elementNameToFocus].initFunc();
     }
 }
+
